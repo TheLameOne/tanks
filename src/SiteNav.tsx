@@ -6,11 +6,13 @@ type SiteNavProps = {
   page: 'home' | 'tiny' | 'terrain';
 };
 
+const base = import.meta.env.BASE_URL;
+
 export default function SiteNav({ page }: SiteNavProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const contactHref = page === 'terrain' ? '/#contact' : '#contact';
-  const faqHref = page === 'terrain' ? '/#faq' : '#faq';
-  const aboutHref = page === 'home' ? '#about' : '/#about';
+  const contactHref = page === 'terrain' ? `${base}#contact` : `#contact`;
+  const faqHref = page === 'terrain' ? `${base}#faq` : `#faq`;
+  const aboutHref = page === 'home' ? `#about` : `${base}#about`;
 
   useEffect(() => {
     if (!isOpen) return;

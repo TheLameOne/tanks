@@ -6,6 +6,8 @@ import SiteFooter from './SiteFooter';
 import { TerrainProductPage, TinyProductPage } from './ProductPages';
 import { storySteps } from './content';
 
+const base = import.meta.env.BASE_URL;
+
 function StoryHeading({ activeIndex }: { activeIndex: number }) {
   const [displayIndex, setDisplayIndex] = useState(activeIndex);
   const [isExiting, setIsExiting] = useState(false);
@@ -150,7 +152,7 @@ function HomePage() {
             </div>
             <div className="cta-row">
               <a className="hero-primary-link" href="#product">Explore the machine <span aria-hidden="true">↓</span></a>
-              <a className="hero-secondary-link" href="#contact">Talk to our team <span aria-hidden="true">↗</span></a>
+                          <a className="hero-secondary-link" href={`${base}#contact`}>Talk to our team <span aria-hidden="true">↗</span></a>
             </div>
           </div>
           <div className="assembly-hint desktop-scroll-cue" aria-hidden="true">
