@@ -4,8 +4,6 @@ import SiteNav from './SiteNav';
 import SiteFooter from './SiteFooter';
 import { storySteps } from './content';
 
-const base = import.meta.env.BASE_URL;
-
 const tinyImages = Object.entries(import.meta.glob<string>(
   '../assets/tiny/*.{png,jpg,jpeg}',
   { eager: true, query: '?url', import: 'default' },
@@ -158,7 +156,7 @@ function ProductContact() {
         </div>
         <div className="product-contact-card">
           <p>Want to see how Tank's tiny could work at your location?</p>
-                  <a className="button button--primary radius-full" href={`${base}#contact`}>Enquire now</a>
+          <a className="button button--primary radius-full" href="/#contact">Enquire now</a>
         </div>
       </div>
     </section>
@@ -210,7 +208,7 @@ export function TinyProductPage() {
           <p className="product-page-lede">
             Contactless, automatic 360° washing with high-pressure water and foam—cleaning any car size in around three minutes.
           </p>
-          <a className="button button--primary radius-full" href={`${base}#contact`}>Enquire about tiny</a>
+          <a className="button button--primary radius-full" href="#contact">Enquire about tiny</a>
         </div>
         <div className="product-page-model" aria-label="Interactive 3D render of Tank's tiny">
           <MachineScene
