@@ -413,17 +413,7 @@ export default function MachineScene({
           <div className="model-viewer-buttons">
             <button type="button" aria-label="Zoom out" onClick={() => viewerActions.current?.zoomOut()}>−</button>
             <button type="button" aria-label="Zoom in" onClick={() => viewerActions.current?.zoomIn()}>+</button>
-            <button
-              type="button"
-              className="model-viewer-auto"
-              aria-pressed={autoRotate}
-              onClick={() => setAutoRotate((rotating) => !rotating)}
-            >
-              {autoRotate ? 'Pause rotation' : 'Auto-rotate'}
-            </button>
-            <button type="button" className="model-viewer-reset" onClick={() => viewerActions.current?.resetZoom()}>
-              Reset zoom
-            </button>
+
           </div>
         </div>
       )}

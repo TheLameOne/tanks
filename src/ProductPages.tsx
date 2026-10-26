@@ -208,7 +208,6 @@ export function TinyProductPage() {
           <p className="product-page-lede">
             Contactless, automatic 360° washing with high-pressure water and foam—cleaning any car size in around three minutes.
           </p>
-          <a className="button button--primary radius-full" href="#contact">Enquire about tiny</a>
         </div>
         <div className="product-page-model" aria-label="Interactive 3D render of Tank's tiny">
           <MachineScene
@@ -217,7 +216,7 @@ export function TinyProductPage() {
             isVisible
             interactive
           />
-          <span className="model-caption">Tank's tiny · 360° single-arm gantry</span>
+          
         </div>
       </section>
 
@@ -307,7 +306,7 @@ export function TinyProductPage() {
             <p className="kicker">In detail</p>
             <h2>Tank's tiny from every angle.</h2>
           </div>
-          <span>{tinyImages.length} product renders</span>
+         
         </div>
         <ImageCarousel images={tinyImages} label="Tank's tiny product render" className="product-image-carousel" />
       </section>
