@@ -4,7 +4,7 @@ import { type MutableRefObject, useEffect, useMemo, useRef, useState } from 'rea
 import * as THREE from 'three';
 import { storySteps } from './content';
 
-const tankModelUrl = '/tank-parts.glb';
+const tankModelUrl = `${import.meta.env.BASE_URL}tank-parts.glb`;
 const cameraFitRatio = 0.86;
 const shadowCameraExtent = 8;
 const revealMaterialColor = new THREE.Color('#a9c4db');
