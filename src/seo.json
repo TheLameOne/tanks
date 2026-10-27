@@ -1,0 +1,28 @@
+{
+  "siteUrl": "https://thelameone.github.io/tanks/",
+  "siteName": "Tank's",
+  "logo": "logo.svg",
+  "pages": {
+    "home": {
+      "path": "",
+      "title": "Tank's | Automatic Vehicle-Washing Machines",
+      "description": "Tank's builds automatic vehicle-washing machines. Meet Tank's tiny, a compact, contactless 360° gantry wash that cleans consistently in around three minutes.",
+      "image": "tiny/00.png",
+      "imageAlt": "Render of Tank's tiny compact single-arm gantry car-wash machine."
+    },
+    "tiny": {
+      "path": "tiny/",
+      "title": "Tank's tiny | Contactless Automatic Car Wash",
+      "description": "Tank's tiny is a compact single-arm gantry wash with automatic, contactless 360° water and foam coverage. A complete wash cycle takes around three minutes.",
+      "image": "tiny/00.png",
+      "imageAlt": "Render of Tank's tiny compact single-arm gantry car-wash machine."
+    },
+    "terrain": {
+      "path": "terrain/",
+      "title": "Tank's Terrain | Engineering Preview",
+      "description": "Tank's Terrain is taking shape. Explore an early engineering preview and get in touch with our team to learn more.",
+      "image": "terrain/1 (1).jpeg",
+      "imageAlt": "Early engineering preview of Tank's Terrain with a vehicle beneath the gantry."
+    }
+  }
+}

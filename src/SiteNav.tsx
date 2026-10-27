@@ -1,6 +1,7 @@
 import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import logoUrl from '../assets/logo.svg';
+import { homeHash, pagePath } from './paths';
 
 type SiteNavProps = {
   page: 'home' | 'tiny' | 'terrain';
@@ -8,9 +9,9 @@ type SiteNavProps = {
 
 export default function SiteNav({ page }: SiteNavProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const contactHref = page === 'terrain' ? '/#contact' : '#contact';
-  const faqHref = page === 'terrain' ? '/#faq' : '#faq';
-  const aboutHref = page === 'home' ? '#about' : '/#about';
+  const contactHref = page === 'home' ? '#contact' : homeHash('contact');
+  const faqHref = page === 'home' ? '#faq' : homeHash('faq');
+  const aboutHref = page === 'home' ? '#about' : homeHash('about');
 
   useEffect(() => {
     if (!isOpen) return;
@@ -41,18 +42,18 @@ export default function SiteNav({ page }: SiteNavProps) {
         />
       )}
       <header className={`nav-pill ${isOpen ? 'is-open' : ''}`}>
-        <a className="brand-link" href="/" aria-label="Tank's home" onClick={closeMenu}>
+        <a className="brand-link" href={pagePath()} aria-label="Tank's home" onClick={closeMenu}>
           <img className="brand-logo" src={logoUrl} alt="Tank's" />
         </a>
         <div className="nav-content" id="primary-navigation">
           <nav className="nav-links" aria-label="Main navigation">
             <span className="nav-section-label">Machines</span>
-            <a href="/tiny" aria-current={page === 'tiny' ? 'page' : undefined} onClick={closeMenu}>
+            <a href={pagePath('tiny')} aria-current={page === 'tiny' ? 'page' : undefined} onClick={closeMenu}>
               <span className="nav-link-label">tiny</span>
               <span className="nav-link-title-mobile">Tank's Tiny</span>
               <span className="nav-link-tag">360° wash</span>
             </a>
-            <a href="/terrain" aria-current={page === 'terrain' ? 'page' : undefined} onClick={closeMenu}>
+            <a href={pagePath('terrain')} aria-current={page === 'terrain' ? 'page' : undefined} onClick={closeMenu}>
               <span className="nav-link-label">terrain</span>
               <span className="nav-link-title-mobile">Tank's Terrain</span>
               <span className="nav-link-tag">All-terrain</span>
@@ -68,7 +69,7 @@ export default function SiteNav({ page }: SiteNavProps) {
             href={contactHref}
             onClick={closeMenu}
           >
-            Enquire now <span aria-hidden="true">→</span>
+            Contact us <span aria-hidden="true">→</span>
           </a>
         </div>
         <button

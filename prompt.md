@@ -446,7 +446,7 @@ Whitespace separates sections (`--space-section` on mobile, `--space-section-lg`
 - Effect: masked character-by-character slide-up on load (GSAP timeline, `--stagger-chars`). Upright type only.
 - Pointer parallax on the heading and camera (disabled on touch and reduced motion).
 - Scroll: the wrapper carries `data-scroll data-scroll-css-progress`, and CSS maps `--progress` to the heading drifting up, scaling slightly and fading. In parallel, `sceneState.heroProgress` (from `scrollBus`) raises the camera and rotates toward the assembly view. Calibrate `data-scroll-position` / `data-scroll-offset` in the Phase 1 spike.
-- Subtitle: `t-body-lg` light: "The world's smallest single-arm gantry car wash." (flagged claim, §13). Buttons: `Button primary` "Enquire now" + `Button outline` "See how it's built". A scroll cue.
+- Subtitle: `t-body-lg` light: "The world's smallest single-arm gantry car wash." (flagged claim, §13). Buttons: `Button primary` "Contact us" + `Button outline` "See how it's built". A scroll cue.
 - Loading: no blocking preloader. Show the heading plus a hairline progress bar. When the GLB is ready, the parts drop onto the ground with a short stagger.
 
 ### 6.2 Assembly (pinned, `--pin-assembly`)

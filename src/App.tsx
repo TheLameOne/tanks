@@ -1,10 +1,13 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
+import type { FormEvent } from 'react';
 import MachineScene from './MachineScene';
 import LightRays from './LightRaysBackground';
 import SiteNav from './SiteNav';
 import SiteFooter from './SiteFooter';
 import { TerrainProductPage, TinyProductPage } from './ProductPages';
 import { storySteps } from './content';
+import { currentPage } from './paths';
+import { updateSeoMetadata } from './seo';
 
 function StoryHeading({ activeIndex }: { activeIndex: number }) {
   const [displayIndex, setDisplayIndex] = useState(activeIndex);
@@ -64,6 +67,40 @@ function HomePage() {
   const assemblyProgress = useRef(1);
   const storyProgress = useRef(0);
   const heroProgress = useRef(0);
+  const [contactStatus, setContactStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+  const handleContactSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    setContactStatus('submitting');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(Object.fromEntries(new FormData(form).entries())),
+      });
+      const result: unknown = await response.json();
+      if (
+        !response.ok
+        || typeof result !== 'object'
+        || result === null
+        || !('success' in result)
+        || result.success !== true
+      ) {
+        throw new Error('Web3Forms rejected the contact enquiry');
+      }
+
+      form.reset();
+      setContactStatus('success');
+    } catch (error) {
+      console.error('Unable to submit contact enquiry:', error);
+      setContactStatus('error');
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,6 +135,13 @@ function HomePage() {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
+  }, []);
+
+  useEffect(() => {
+    const targetId = window.location.hash.slice(1);
+    if (!targetId) return;
+
+    document.getElementById(targetId)?.scrollIntoView();
   }, []);
 
   return (
@@ -242,15 +286,36 @@ function HomePage() {
               Tell us about your location and vehicle-washing needs. We'll help you explore the right
               Tank's automatic wash setup for your site.
             </p>
+            <p className="contact-intro contact-email">
+              Prefer email? <a href="mailto:connect@tankscompany.com">connect@tankscompany.com</a>
+            </p>
           </div>
-          <div className="contact-card">
-            <div className="form-row"><label htmlFor="enquiry-name">Full name *</label><input id="enquiry-name" type="text" placeholder="Your name" /></div>
-            <div className="form-row"><label htmlFor="enquiry-email">Email address *</label><input id="enquiry-email" type="email" placeholder="you@example.com" /></div>
-            <div className="form-row form-row--message"><label htmlFor="enquiry-message">Your message *</label><textarea id="enquiry-message" placeholder="Tell us about your site, requirements, and plans..." rows={4}></textarea></div>
+          <form
+            className="contact-card"
+            onSubmit={handleContactSubmit}
+            aria-busy={contactStatus === 'submitting'}
+          >
+            <input type="hidden" name="access_key" value="9feaac2f-4447-4df3-b749-48798847a915" />
+            <div className="form-row"><label htmlFor="enquiry-name">Full name *</label><input id="enquiry-name" name="name" type="text" autoComplete="name" placeholder="Your name" required /></div>
+            <div className="form-row"><label htmlFor="enquiry-email">Email address *</label><input id="enquiry-email" name="email" type="email" autoComplete="email" placeholder="you@example.com" required /></div>
+            <div className="form-row form-row--message"><label htmlFor="enquiry-message">Your message *</label><textarea id="enquiry-message" name="message" placeholder="Tell us about your site, requirements, and plans..." rows={4} required></textarea></div>
             <div className="action-row">
-              <button className="button button--primary contact-submit">Send enquiry <span aria-hidden="true">↗</span></button>
+              <button
+                type="submit"
+                className="button button--primary contact-submit"
+                disabled={contactStatus === 'submitting'}
+              >
+                {contactStatus === 'submitting' ? 'Sending...' : 'Send enquiry'}
+                <span aria-hidden="true">↗</span>
+              </button>
             </div>
-          </div>
+            {contactStatus === 'success' && (
+              <p className="contact-status" role="status">Thanks for reaching out. We'll be in touch soon.</p>
+            )}
+            {contactStatus === 'error' && (
+              <p className="contact-status" role="alert">We couldn't send your enquiry. Please try again.</p>
+            )}
+          </form>
         </div>
       </section>
       <SiteFooter />
@@ -259,8 +324,12 @@ function HomePage() {
 }
 
 export default function App() {
-  const path = window.location.pathname.replace(/\/+$/, '') || '/';
-  if (path === '/tiny') return <TinyProductPage />;
-  if (path === '/terrain') return <TerrainProductPage />;
+  const page = currentPage();
+  useEffect(() => {
+    updateSeoMetadata(page);
+  }, [page]);
+
+  if (page === 'tiny') return <TinyProductPage />;
+  if (page === 'terrain') return <TerrainProductPage />;
   return <HomePage />;
 }

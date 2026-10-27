@@ -3,7 +3,15 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  // base: '/tanks/',
+  base: '/',
+  build: {
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        navbarDesigns: 'navbar-designs.html'
+      }
+    }
+  },
   server: {
     port: 5173,
     host: '0.0.0.0'

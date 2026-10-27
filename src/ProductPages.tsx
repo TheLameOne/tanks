@@ -3,6 +3,7 @@ import MachineScene from './MachineScene';
 import SiteNav from './SiteNav';
 import SiteFooter from './SiteFooter';
 import { storySteps } from './content';
+import { homeHash } from './paths';
 
 const tinyImages = Object.entries(import.meta.glob<string>(
   '../assets/tiny/*.{png,jpg,jpeg}',
@@ -76,23 +77,38 @@ function ImageCarousel({
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isInView, setIsInView] = useState(false);
   const pointerStart = useRef<number | null>(null);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
   const activeImage = images[activeIndex];
   const showPrevious = () => setActiveIndex((index) => (index - 1 + images.length) % images.length);
   const showNext = () => setActiveIndex((index) => (index + 1) % images.length);
 
   useEffect(() => {
-    if (!isPlaying || images.length < 2) return undefined;
+    const carousel = carouselRef.current;
+    if (!carousel) return undefined;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry) setIsInView(entry.isIntersecting);
+    });
+    observer.observe(carousel);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isPlaying || !isInView || images.length < 2) return undefined;
 
     const intervalId = window.setInterval(() => {
       setActiveIndex((index) => (index + 1) % images.length);
     }, 4500);
 
     return () => window.clearInterval(intervalId);
-  }, [images.length, isPlaying]);
+  }, [images.length, isInView, isPlaying]);
 
   return (
     <div
+      ref={carouselRef}
       className={`image-carousel ${className}`}
       role="region"
       aria-label={label}
@@ -132,14 +148,8 @@ function ImageCarousel({
         <button type="button" className="image-carousel-arrow" aria-label="Next image" onClick={showNext}>
           <span aria-hidden="true">→</span>
         </button>
-        <button
-          type="button"
-          className="image-carousel-toggle"
-          aria-pressed={isPlaying}
-          onClick={() => setIsPlaying((playing) => !playing)}
-        >
-          {isPlaying ? 'Pause' : 'Play'}
-        </button>
+        
+        
       </div>
     </div>
   );
@@ -156,7 +166,7 @@ function ProductContact() {
         </div>
         <div className="product-contact-card">
           <p>Want to see how Tank's tiny could work at your location?</p>
-          <a className="button button--primary radius-full" href="/#contact">Enquire now</a>
+          <a className="button button--primary radius-full" href={homeHash('contact')}>Contact us</a>
         </div>
       </div>
     </section>
@@ -322,16 +332,50 @@ export function TerrainProductPage() {
   return (
     <main className="page-shell terrain-page" id="top">
       <SiteNav page="terrain" />
-      <section className="terrain-intro">
-        <p className="kicker">Tank's terrain</p>
-        <h1>Terrain</h1>
-        <span className="terrain-coming-soon">Coming soon</span>
+      <section className="terrain-intro" aria-labelledby="terrain-heading">
+        <div className="terrain-intro-copy">
+          <p className="kicker">Tank's terrain</p>
+          <h1 id="terrain-heading">Terrain</h1>
+          <p className="terrain-intro-lede">
+            Tank's Terrain is taking shape. Explore an early engineering preview and get in touch with our team to learn more.
+          </p>
+          <a className="button button--primary radius-full" href={homeHash('contact')}>
+            Enquire about Terrain <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <aside className="terrain-intro-aside" aria-label="Terrain product status">
+          <span className="terrain-status-label">Product status</span>
+          <span className="terrain-coming-soon">
+            <span className="terrain-status-dot" aria-hidden="true" />
+            Coming soon
+          </span>
+          <a className="terrain-preview-link" href="#terrain-preview">
+            View the engineering preview <span aria-hidden="true">↓</span>
+          </a>
+        </aside>
       </section>
-      <ImageCarousel
-        images={terrainImages}
-        label="Tank's Terrain product photos"
-        className="terrain-image-carousel"
-      />
+      <section
+        className="terrain-preview-section"
+        id="terrain-preview"
+        aria-labelledby="terrain-preview-heading"
+      >
+        <div className="terrain-preview-heading">
+          <div>
+            <p className="kicker">Engineering preview</p>
+            <h2 id="terrain-preview-heading">A first look at Terrain.</h2>
+          </div>
+          <p className="terrain-preview-copy">
+            Browse early renderings of Tank's Terrain as the design takes shape.
+          </p>
+        </div>
+        <div className="terrain-image-frame">
+          <ImageCarousel
+            images={terrainImages}
+            label="Tank's Terrain engineering preview"
+            className="terrain-image-carousel"
+          />
+        </div>
+      </section>
       <SiteFooter />
     </main>
   );

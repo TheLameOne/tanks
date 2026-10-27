@@ -6,6 +6,7 @@ import { storySteps } from './content';
 
 const tankModelUrl = '/tank-parts.glb';
 const cameraFitRatio = 0.86;
+const shadowCameraExtent = 8;
 const revealMaterialColor = new THREE.Color('#a9c4db');
 const wireframeEndColor = new THREE.Color('#536171');
 const metallicFinishes = [
@@ -32,6 +33,7 @@ type MachineModelProps = {
   storyProgress: MutableRefObject<number>;
   heroProgress: MutableRefObject<number>;
   alignRight: boolean;
+  interactive: boolean;
 };
 
 type ViewerActions = {
@@ -69,10 +71,12 @@ function CameraFit({
   radius,
   heroProgress,
   enableHeroZoom,
+  allowOrbit,
 }: {
   radius: number;
   heroProgress: MutableRefObject<number>;
   enableHeroZoom: boolean;
+  allowOrbit: boolean;
 }) {
   const { camera, size } = useThree();
   const baseDistance = useRef<number | null>(null);
@@ -93,6 +97,7 @@ function CameraFit({
   }, [camera, radius, size.height, size.width]);
 
   useFrame(() => {
+    if (allowOrbit) return;
     if (!(camera instanceof THREE.PerspectiveCamera) || baseDistance.current === null) return;
 
     const progress = enableHeroZoom
@@ -112,6 +117,7 @@ function MachineModel({
   storyProgress,
   heroProgress,
   alignRight,
+  interactive,
 }: MachineModelProps) {
   const { scene } = useGLTF(tankModelUrl);
   const { size } = useThree();
@@ -300,18 +306,19 @@ function MachineModel({
       5,
       delta,
     );
-    group.rotation.x = 0.15;
+    group.rotation.x = 0;
     group.rotation.z = 0;
     groundRef.current?.position.set(horizontalPosition, verticalPosition + floorY - 0.015, 0);
   });
 
   return (
     <>
-      <group ref={groupRef} position={[isPortrait ? 0 : alignRight ? 2 : 0.55, isPortrait ? -1.35 : -0.35, 0]} rotation={[0.15, 0.9, 0]}>
+      <group ref={groupRef} position={[isPortrait ? 0 : alignRight ? 2 : 0.55, isPortrait ? -1.35 : -0.35, 0]} rotation={[0, 0.9, 0]}>
         <CameraFit
           radius={radius}
           heroProgress={heroProgress}
           enableHeroZoom={alignRight && !isMobile}
+          allowOrbit={interactive}
         />
         {parts.map((part, index) => (
           <group key={`${part.mesh.uuid}-${index}`}>
@@ -374,11 +381,11 @@ export default function MachineScene({
           shadow-mapSize-width={1024}
           shadow-mapSize-height={1024}
           shadow-bias={-0.0001}
-          shadow-normalBias={0.04}
-          shadow-camera-left={-12}
-          shadow-camera-right={12}
-          shadow-camera-top={12}
-          shadow-camera-bottom={-12}
+          shadow-normalBias={0.008}
+          shadow-camera-left={-shadowCameraExtent}
+          shadow-camera-right={shadowCameraExtent}
+          shadow-camera-top={shadowCameraExtent}
+          shadow-camera-bottom={-shadowCameraExtent}
           shadow-camera-near={0.1}
           shadow-camera-far={30}
         />
@@ -389,6 +396,7 @@ export default function MachineScene({
           storyProgress={storyProgress}
           heroProgress={heroProgress ?? defaultHeroProgress}
           alignRight={alignRight}
+          interactive={interactive}
         />
         <Environment preset="studio" environmentIntensity={0.72} />
         {interactive && (
@@ -398,10 +406,13 @@ export default function MachineScene({
               autoRotate={autoRotate}
               autoRotateSpeed={0.7}
               enableDamping
+              enableRotate
               enableZoom
               enablePan={false}
               minDistance={2}
               maxDistance={20}
+              zoomSpeed={0.9}
+              onStart={() => setAutoRotate(false)}
             />
             <ViewerZoom actions={viewerActions} />
           </>

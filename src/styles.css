@@ -1066,6 +1066,10 @@ button {
   letter-spacing: var(--letter-spacing-h1);
 }
 
+.product-contact .contact-copy .t-h2 {
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+}
+
 .contact-copy .t-h2 em {
   color: var(--primary);
   font-weight: 400;
@@ -1079,6 +1083,15 @@ button {
   font-weight: var(--font-weight-text);
   line-height: var(--line-height-body);
   letter-spacing: var(--letter-spacing-body);
+}
+
+.contact-email {
+  margin-top: 0.75rem;
+}
+
+.contact-email a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 .faq-section {
@@ -1442,6 +1455,7 @@ button {
   height: min(600px, 68vw);
   min-height: 380px;
   overflow: hidden;
+  overscroll-behavior: contain;
   border: 1px solid rgba(117, 71, 47, 0.12);
   border-radius: 2rem;
   background:
@@ -1456,6 +1470,7 @@ button {
 
 .scene-shell--interactive {
   pointer-events: auto;
+  overscroll-behavior: contain;
 }
 
 .scene-shell--interactive canvas {
@@ -1882,37 +1897,103 @@ button {
   letter-spacing: var(--letter-spacing-body);
 }
 
+.product-contact-card .button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
 .terrain-page {
   padding-bottom: 0;
 }
 
 .terrain-intro {
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.42fr);
+  align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-  padding: clamp(3rem, 8vw, 7rem) 0 2rem;
+  gap: clamp(2rem, 6vw, 5rem);
+  padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(2.5rem, 5vw, 4rem);
 }
 
-.terrain-intro .kicker {
-  grid-column: 1 / -1;
-  margin-bottom: -1.5rem;
+.terrain-intro-copy {
+  max-width: 43rem;
 }
 
 .terrain-intro h1 {
   margin: 0;
-  font-size: var(--font-size-display);
+  font-size: clamp(4.5rem, 9vw, 7rem);
   font-weight: var(--font-weight-display);
-  line-height: var(--line-height-display);
-  letter-spacing: var(--letter-spacing-display);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+}
+
+.terrain-intro-lede {
+  max-width: 36rem;
+  margin: 1.35rem 0 1.7rem;
+  color: var(--ink-soft);
+  font-size: var(--font-size-body-lg);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-body-lg);
+  letter-spacing: var(--letter-spacing-body-lg);
+}
+
+.terrain-intro-copy .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.terrain-intro-aside {
+  position: relative;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 1rem;
+  min-height: 13rem;
+  padding: 1.6rem;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(117, 71, 47, 0.16);
+  border-radius: 1.5rem;
+  background: linear-gradient(145deg, rgba(255, 253, 249, 0.88), rgba(238, 227, 216, 0.72));
+  box-shadow: 0 18px 42px rgba(76, 48, 31, 0.06);
+}
+
+.terrain-intro-aside::after {
+  position: absolute;
+  z-index: -1;
+  right: -4rem;
+  bottom: -7rem;
+  width: 15rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(117, 71, 47, 0.16);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.1rem rgba(117, 71, 47, 0.035), 0 0 0 2.2rem rgba(117, 71, 47, 0.025);
+  content: '';
+  pointer-events: none;
+}
+
+.terrain-status-label {
+  color: var(--muted);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .terrain-coming-soon {
-  padding: 0.7rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.95rem;
   border: 1px solid var(--hairline);
   border-radius: var(--radius-full);
-  background: var(--accent-soft);
+  background: rgba(241, 226, 212, 0.82);
   color: var(--primary);
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-semibold);
@@ -1921,8 +2002,82 @@ button {
   white-space: nowrap;
 }
 
+.terrain-status-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--sage);
+  box-shadow: 0 0 0 0.25rem rgba(124, 128, 99, 0.14);
+}
+
+.terrain-preview-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--primary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-body-sm);
+  transition: gap 0.2s ease, color 0.2s ease;
+}
+
+.terrain-preview-link:hover {
+  gap: 0.7rem;
+  color: var(--ink);
+}
+
+.terrain-preview-section {
+  padding-bottom: clamp(4rem, 7vw, 6rem);
+}
+
+.terrain-preview-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.terrain-preview-heading .kicker {
+  margin-bottom: 0.55rem;
+}
+
+.terrain-preview-heading h2 {
+  margin: 0;
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-display);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--letter-spacing-h3);
+}
+
+.terrain-preview-copy {
+  max-width: 24rem;
+  margin: 0 0 0.2rem;
+  color: var(--ink-soft);
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-body-sm);
+}
+
+.terrain-image-frame {
+  padding: clamp(0.6rem, 1.5vw, 1rem);
+  border: 1px solid rgba(117, 71, 47, 0.16);
+  border-radius: 1.75rem;
+  background: rgba(255, 253, 249, 0.68);
+  box-shadow: 0 20px 60px rgba(76, 48, 31, 0.08);
+}
+
 .terrain-image-carousel {
-  padding-bottom: 4rem;
+  padding-bottom: 0;
+}
+
+.terrain-image-carousel .image-carousel-slide {
+  height: clamp(22rem, 50vw, 36rem);
+  border-radius: 1.2rem;
+}
+
+.terrain-image-carousel .image-carousel-controls {
+  padding-top: 0.1rem;
 }
 
 .contact-card {
@@ -2010,6 +2165,18 @@ button {
   font-size: 1rem;
 }
 
+.contact-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 1100px) {
+  .product-contact .contact-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 @media (max-width: 900px) {
   .story-layout,
   .section--split,
@@ -2063,6 +2230,20 @@ button {
   .page-shell {
     width: 100%;
     margin: 0;
+  }
+
+  .about-section::before,
+  .faq-section::before,
+  .contact-section::before {
+    left: 0;
+    width: 100%;
+    transform: none;
+  }
+
+  .footer-cta {
+    left: 0;
+    width: 100%;
+    transform: none;
   }
 
   .about-section,
@@ -2310,7 +2491,7 @@ button {
     justify-items: start;
     align-content: start;
     min-height: 70svh;
-    height: 70svh;
+    height: auto;
     overflow: visible;
     padding: 2.5rem 0 1rem;
   }
@@ -2451,7 +2632,7 @@ button {
   }
 
   .product-page-title {
-      font-size: var(--font-size-display);
+      font-size: clamp(3.25rem, 18vw, 5rem);
       font-weight: var(--font-weight-display);
       line-height: var(--line-height-display);
       letter-spacing: var(--letter-spacing-display);
@@ -2483,8 +2664,7 @@ button {
     border-radius: 1rem;
   }
 
-  .product-gallery-heading,
-  .terrain-intro {
+  .product-gallery-heading {
     align-items: start;
   }
 
@@ -2581,7 +2761,34 @@ button {
   }
 
   .terrain-intro {
-    gap: 1rem;
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 1.5rem;
+    padding: 3rem 0 2.5rem;
+  }
+
+  .terrain-intro-aside {
+    min-height: 0;
+    gap: 0.8rem;
+    padding: 1.2rem;
+  }
+
+  .terrain-preview-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .terrain-preview-section {
+    padding-bottom: 3.5rem;
+  }
+
+  .terrain-image-frame {
+    border-radius: 1.25rem;
+  }
+
+  .terrain-image-carousel .image-carousel-slide {
+    height: clamp(18rem, 68vw, 28rem);
   }
 
   @media (max-width: 480px) {
@@ -2599,16 +2806,9 @@ button {
     }
   }
 
-  .terrain-intro .kicker {
-    margin-bottom: 0;
-  }
-
   .terrain-intro h1 {
-      font-size: var(--font-size-display);
-      font-weight: var(--font-weight-display);
-      line-height: var(--line-height-display);
-      letter-spacing: var(--letter-spacing-display);
-    }
+    font-size: clamp(4rem, 17vw, 5.5rem);
+  }
 }
 
 @media (max-width: 560px) {
@@ -2652,6 +2852,18 @@ button {
   .story-item__index {
     width: 2.5rem;
     height: 2.5rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .display-xl {
+    font-size: clamp(4rem, 25vw, 5rem);
+  }
+
+  .product-section-heading h2,
+  .product-name-copy h2,
+  .product-gallery-heading h2 {
+    font-size: clamp(2rem, 10vw, 2.75rem);
   }
 }
 
