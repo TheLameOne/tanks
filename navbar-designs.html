@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Three navbar concepts that make the Tank's logo easier to see."
+    />
+    <title>Tank's navbar design study</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        color: #2a1c14;
+        background: #f3eee8;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        --page: #f3eee8;
+        --ink: #2a1c14;
+        --soft-ink: #675347;
+        --muted: #8a7567;
+        --paper: #fffdf9;
+        --sand: #eee3d8;
+        --line: #d6c7b9;
+        --brown: #75472f;
+        --copper: #b57950;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        background:
+          radial-gradient(ellipse at 12% 0%, rgba(255, 253, 249, 0.82), transparent 38rem),
+          var(--page);
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: 48px 0 64px;
+      }
+
+      .intro {
+        max-width: 720px;
+        margin-bottom: 30px;
+      }
+
+      .eyebrow,
+      .option-number {
+        margin: 0;
+        color: var(--brown);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 12px 0;
+        font-size: clamp(2.1rem, 5vw, 3.4rem);
+        font-weight: 650;
+        letter-spacing: -0.055em;
+        line-height: 1.02;
+      }
+
+      .intro-copy {
+        max-width: 630px;
+        margin: 0;
+        color: var(--soft-ink);
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .preview-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 18px 0 0;
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 253, 249, 0.72);
+        color: var(--soft-ink);
+        font-size: 0.8rem;
+      }
+
+      .preview-note::before {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--copper);
+        content: "";
+      }
+
+      .design-list {
+        display: grid;
+        gap: 18px;
+      }
+
+      .design-card {
+        padding: 24px;
+        border: 1px solid rgba(214, 199, 185, 0.85);
+        border-radius: 24px;
+        background: rgba(255, 253, 249, 0.68);
+        box-shadow: 0 12px 30px rgba(76, 48, 31, 0.045);
+      }
+
+      .design-card__heading {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 18px;
+      }
+
+      .design-card h2 {
+        margin: 5px 0;
+        font-size: 1.35rem;
+        font-weight: 650;
+        letter-spacing: -0.03em;
+      }
+
+      .design-card__copy,
+      .best-for {
+        margin: 0;
+        color: var(--soft-ink);
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .contrast-label {
+        flex: 0 0 auto;
+        margin-top: 2px;
+        padding: 7px 10px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--brown);
+        font-size: 0.72rem;
+        font-weight: 650;
+        white-space: nowrap;
+      }
+
+      .nav-demo {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        min-height: 78px;
+        padding: 10px 14px;
+      }
+
+      .nav-demo--spotlight {
+        justify-content: space-between;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--paper);
+      }
+
+      .nav-demo--dark {
+        justify-content: space-between;
+        border: 1px solid #2a1c14;
+        border-radius: 20px;
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .nav-demo--split {
+        justify-content: space-between;
+        gap: 0;
+        overflow: hidden;
+        padding: 0 14px 0 0;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: var(--paper);
+      }
+
+      .nav-brand {
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        height: 54px;
+        padding: 5px 11px;
+        border: 1px solid #c9b29f;
+        border-radius: 13px;
+        background: var(--paper);
+      }
+
+      .nav-brand img {
+        display: block;
+        width: 148px;
+        height: auto;
+      }
+
+      .nav-demo--dark .nav-brand {
+        height: 56px;
+        padding: 6px 13px;
+        border: 2px solid var(--copper);
+        border-radius: 14px;
+      }
+
+      .nav-demo--dark .nav-brand img {
+        width: 156px;
+      }
+
+      .nav-brand--split {
+        align-self: stretch;
+        height: auto;
+        min-width: 208px;
+        padding: 0 22px;
+        border: 0;
+        border-right: 1px solid var(--line);
+        border-left: 5px solid var(--brown);
+        border-radius: 0;
+        background: var(--sand);
+      }
+
+      .nav-brand--split img {
+        width: 160px;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(14px, 2.2vw, 28px);
+        margin: 0 auto;
+        color: var(--soft-ink);
+        font-size: 0.92rem;
+        white-space: nowrap;
+      }
+
+      .nav-demo--dark .nav-links {
+        color: #f5ece4;
+      }
+
+      .nav-links a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .nav-cta {
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 22px;
+        border-radius: 999px;
+        background: var(--brown);
+        color: white;
+        font-size: 0.91rem;
+        font-weight: 650;
+        white-space: nowrap;
+      }
+
+      .nav-demo--dark .nav-cta {
+        background: var(--paper);
+        color: var(--ink);
+      }
+
+      .nav-demo--split .nav-cta {
+        border: 1px solid var(--brown);
+        background: transparent;
+        color: var(--brown);
+      }
+
+      .menu-glyph {
+        display: none;
+        flex: 0 0 auto;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        width: 42px;
+        height: 42px;
+        padding: 11px;
+        border-radius: 50%;
+        background: var(--sand);
+      }
+
+      .menu-glyph i {
+        display: block;
+        width: 100%;
+        height: 2px;
+        border-radius: 2px;
+        background: var(--ink);
+      }
+
+      .nav-demo--dark .menu-glyph {
+        background: rgba(255, 253, 249, 0.14);
+      }
+
+      .nav-demo--dark .menu-glyph i {
+        background: var(--paper);
+      }
+
+      .nav-demo--split .menu-glyph {
+        background: var(--sand);
+      }
+
+      .best-for {
+        margin-top: 14px;
+      }
+
+      .best-for strong {
+        color: var(--ink);
+      }
+
+      @media (max-width: 720px) {
+        .page {
+          width: min(100% - 24px, 560px);
+          padding: 32px 0 44px;
+        }
+
+        .intro {
+          margin-bottom: 22px;
+        }
+
+        .design-list {
+          gap: 12px;
+        }
+
+        .design-card {
+          padding: 16px;
+          border-radius: 20px;
+        }
+
+        .design-card__heading {
+          display: block;
+          margin-bottom: 14px;
+        }
+
+        .contrast-label {
+          display: inline-block;
+          margin-top: 9px;
+        }
+
+        .nav-demo {
+          min-height: 70px;
+          gap: 10px;
+          padding: 8px 9px;
+        }
+
+        .nav-demo--split {
+          padding-right: 8px;
+        }
+
+        .nav-links,
+        .nav-cta {
+          display: none;
+        }
+
+        .menu-glyph {
+          display: flex;
+        }
+
+        .nav-brand {
+          height: 48px;
+          padding: 4px 8px;
+          border-radius: 11px;
+        }
+
+        .nav-brand img {
+          width: 133px;
+        }
+
+        .nav-demo--dark .nav-brand {
+          height: 50px;
+          padding: 4px 9px;
+        }
+
+        .nav-demo--dark .nav-brand img {
+          width: 139px;
+        }
+
+        .nav-brand--split {
+          min-width: 0;
+          height: auto;
+          padding: 0 12px;
+          border-radius: 0;
+        }
+
+        .nav-brand--split img {
+          width: 137px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <p class="eyebrow">Tank's / navbar design study</p>
+        <h1>Give the logo room to be seen.</h1>
+        <p class="intro-copy">
+          Three ways to make the Tank's wordmark stand out while keeping the warm,
+          understated feel of the current site. Each concept uses the existing logo.
+        </p>
+        <p class="preview-note">Design preview only - the live navbar is unchanged.</p>
+      </header>
+
+      <div class="design-list">
+        <section class="design-card" aria-labelledby="spotlight-title">
+          <div class="design-card__heading">
+            <div>
+              <p class="option-number">01 / Subtle refresh</p>
+              <h2 id="spotlight-title">The spotlight badge</h2>
+              <p class="design-card__copy">
+                Keep the familiar light pill; give the logo its own larger, crisp-edged tile.
+              </p>
+            </div>
+            <span class="contrast-label">Light + framed</span>
+          </div>
+          <nav class="nav-demo nav-demo--spotlight" aria-label="Spotlight badge navbar preview">
+            <span class="nav-brand">
+              <img src="/tanks/assets/logo-j2BFDsFP.svg" alt="Tank's" />
+            </span>
+            <span class="nav-links" aria-hidden="true">
+              <a>tiny</a><a>terrain</a><a>About us</a><a>FAQ</a><a>Contact</a>
+            </span>
+            <span class="nav-cta">Contact us <span aria-hidden="true">&nbsp;→</span></span>
+            <span class="menu-glyph" aria-hidden="true"><i></i><i></i><i></i></span>
+          </nav>
+          <p class="best-for"><strong>Best for:</strong> a clear improvement that still feels like today's site.</p>
+        </section>
+
+        <section class="design-card" aria-labelledby="dark-title">
+          <div class="design-card__heading">
+            <div>
+              <p class="option-number">02 / Maximum contrast</p>
+              <h2 id="dark-title">The espresso bar</h2>
+              <p class="design-card__copy">
+                Make the whole navbar a deep brand-brown anchor; the cream logo tile reads immediately.
+              </p>
+            </div>
+            <span class="contrast-label">Dark + bright</span>
+          </div>
+          <nav class="nav-demo nav-demo--dark" aria-label="Espresso bar navbar preview">
+            <span class="nav-brand">
+              <img src="/tanks/assets/logo-j2BFDsFP.svg" alt="Tank's" />
+            </span>
+            <span class="nav-links" aria-hidden="true">
+              <a>tiny</a><a>terrain</a><a>About us</a><a>FAQ</a><a>Contact</a>
+            </span>
+            <span class="nav-cta">Contact us <span aria-hidden="true">&nbsp;→</span></span>
+            <span class="menu-glyph" aria-hidden="true"><i></i><i></i><i></i></span>
+          </nav>
+          <p class="best-for"><strong>Best for:</strong> the strongest brand presence and easiest logo recognition.</p>
+        </section>
+
+        <section class="design-card" aria-labelledby="split-title">
+          <div class="design-card__heading">
+            <div>
+              <p class="option-number">03 / Logo first</p>
+              <h2 id="split-title">The split brand panel</h2>
+              <p class="design-card__copy">
+                Set the logo in a dedicated sand-colored panel with a brown edge, then keep the navigation quiet.
+              </p>
+            </div>
+            <span class="contrast-label">Separated + roomy</span>
+          </div>
+          <nav class="nav-demo nav-demo--split" aria-label="Split brand panel navbar preview">
+            <span class="nav-brand nav-brand--split">
+              <img src="/tanks/assets/logo-j2BFDsFP.svg" alt="Tank's" />
+            </span>
+            <span class="nav-links" aria-hidden="true">
+              <a>tiny</a><a>terrain</a><a>About us</a><a>FAQ</a><a>Contact</a>
+            </span>
+            <span class="nav-cta">Contact us <span aria-hidden="true">&nbsp;→</span></span>
+            <span class="menu-glyph" aria-hidden="true"><i></i><i></i><i></i></span>
+          </nav>
+          <p class="best-for"><strong>Best for:</strong> keeping the light palette while making the brand the first thing people see.</p>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
