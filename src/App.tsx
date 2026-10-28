@@ -63,6 +63,7 @@ function HomePage() {
   const storySectionRef = useRef<HTMLElement | null>(null);
   const aboutSectionRef = useRef<HTMLElement | null>(null);
   const [activeStory, setActiveStory] = useState(0);
+  const [showStoryScrollCue, setShowStoryScrollCue] = useState(false);
   const [sceneVisible, setSceneVisible] = useState(true);
   const assemblyProgress = useRef(1);
   const storyProgress = useRef(0);
@@ -123,6 +124,10 @@ function HomePage() {
       );
       const progress = Math.min(1, Math.max(0, -storyRect.top / Math.max(storyRect.height, 1)));
       storyProgress.current = progress;
+      const shouldShowScrollCue = progress > 0.015 && progress < 0.96;
+      setShowStoryScrollCue((current) => (
+        current === shouldShowScrollCue ? current : shouldShowScrollCue
+      ));
       const nextIndex = Math.min(storySteps.length - 1, Math.floor(progress * storySteps.length));
       setActiveStory((current) => current === nextIndex ? current : nextIndex);
     };
@@ -151,7 +156,7 @@ function HomePage() {
       <section className="assembly-experience" ref={experienceRef}>
         <div className="assembly-stage" aria-hidden="true">
           <LightRays
-            active
+            active={sceneVisible}
             raysOrigin="top-center"
             raysColor="#b57950"
             raysSpeed={0.12}
@@ -217,6 +222,13 @@ function HomePage() {
         >
           <div className="product-overlay" aria-live="polite">
             <StoryHeading activeIndex={activeStory} />
+            <div
+              className={`story-scroll-cue${showStoryScrollCue ? ' is-visible' : ''}`}
+              aria-hidden="true"
+            >
+              <span>Keep scrolling to explore</span>
+              <span className="story-scroll-cue__arrow">↓</span>
+            </div>
           </div>
           {storySteps.map((step) => (
             <article className="product-beat" key={step.index} aria-hidden="true" />

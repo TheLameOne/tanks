@@ -206,6 +206,41 @@ button {
   pointer-events: none;
 }
 
+.story-scroll-cue {
+  position: absolute;
+  bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid rgba(117, 71, 47, 0.16);
+  border-radius: var(--radius-full);
+  background: rgba(255, 253, 249, 0.9);
+  color: var(--ink-soft);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-caption);
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 0.5rem);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+.story-scroll-cue.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.story-scroll-cue__arrow {
+  display: inline-block;
+  font-size: 1rem;
+  animation: scroll-cue-bounce 1.5s ease-in-out infinite;
+}
+
 .product-beat {
   position: relative;
   height: 100vh;
@@ -2923,5 +2958,9 @@ button {
 
   .product-heading__character {
     animation-duration: 1ms;
+  }
+
+  .story-scroll-cue__arrow {
+    animation: none;
   }
 }
