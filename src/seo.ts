@@ -32,6 +32,7 @@ export function updateSeoMetadata(pageName: SeoPage) {
 
   document.title = page.title;
   setMetaContent('name', 'description', page.description);
+  setMetaContent('name', 'keywords', seoConfig.keywords);
   setMetaContent('property', 'og:type', 'website');
   setMetaContent('property', 'og:site_name', seoConfig.siteName);
   setMetaContent('property', 'og:title', page.title);
@@ -60,13 +61,17 @@ export function updateSeoMetadata(pageName: SeoPage) {
         '@type': 'Organization',
         '@id': organizationId,
         name: seoConfig.siteName,
+        alternateName: seoConfig.alternateNames,
         url: seoConfig.siteUrl,
         logo: logoImageUrl,
+        email: seoConfig.email,
+        address: { '@type': 'PostalAddress', ...seoConfig.address },
       },
       {
         '@type': 'WebSite',
         '@id': websiteId,
         name: seoConfig.siteName,
+        alternateName: seoConfig.alternateNames,
         url: seoConfig.siteUrl,
         publisher: { '@id': organizationId },
       },

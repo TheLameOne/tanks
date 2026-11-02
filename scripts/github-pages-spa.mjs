@@ -61,13 +61,17 @@ function buildStructuredData(page, pageUrl, imageUrl, logoUrl) {
         '@type': 'Organization',
         '@id': organizationId,
         name: seoConfig.siteName,
+        alternateName: seoConfig.alternateNames,
         url: seoConfig.siteUrl,
         logo: logoUrl,
+        email: seoConfig.email,
+        address: { '@type': 'PostalAddress', ...seoConfig.address },
       },
       {
         '@type': 'WebSite',
         '@id': websiteId,
         name: seoConfig.siteName,
+        alternateName: seoConfig.alternateNames,
         url: seoConfig.siteUrl,
         publisher: { '@id': organizationId },
       },
@@ -94,6 +98,7 @@ function applySeoMetadata(html, pageName) {
   const logoUrl = findBuiltAsset(seoConfig.logo);
   const attributeValues = {
     description: ['content', page.description],
+    keywords: ['content', seoConfig.keywords],
     canonical: ['href', pageUrl],
     sitemap: ['href', new URL('sitemap.xml', seoConfig.siteUrl).href],
     'og-type': ['content', 'website'],

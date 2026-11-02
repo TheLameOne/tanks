@@ -1,4 +1,5 @@
 import logoUrl from '../assets/logo.svg';
+import { companyAddressLines } from './content';
 import { homeHash, pagePath } from './paths';
 
 export default function SiteFooter() {
@@ -12,13 +13,17 @@ export default function SiteFooter() {
       <div className="site-footer-inner">
         <div className="site-footer-main">
           <div className="site-footer-about">
-            <a className="site-footer-brand" href={pagePath()} aria-label="Tank's home">
-              <img src={logoUrl} alt="Tank's" />
+            <a className="site-footer-brand" href={pagePath()} aria-label="Tank's company home">
+              <img src={logoUrl} alt="Tank's company" width={2716} height={699} />
             </a>
             <p>
               We build automatic vehicle-washing machines with thoughtful design, advanced
               technology and a commitment to world-class standards.
             </p>
+            <address className="site-footer-address">
+              <span className="site-footer-address-name">Tank’s company</span>
+              {companyAddressLines.map((line) => <span key={line}>{line}</span>)}
+            </address>
           </div>
           <nav className="site-footer-links" aria-label="Products">
             <h3>Products</h3>
@@ -37,7 +42,7 @@ export default function SiteFooter() {
           </nav>
         </div>
         <div className="site-footer-bottom">
-          <span>© {new Date().getFullYear()} Tank's. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Tank’s company. All rights reserved.</span>
         </div>
       </div>
     </footer>

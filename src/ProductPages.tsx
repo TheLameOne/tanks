@@ -1,19 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
-import MachineScene from './MachineScene';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import SiteNav from './SiteNav';
 import SiteFooter from './SiteFooter';
-import { storySteps } from './content';
+import tinyGantryImage from '../assets/tiny/11.png';
+import { faqs } from './content';
 import { homeHash } from './paths';
 
-const tinyImages = Object.entries(import.meta.glob<string>(
-  '../assets/tiny/*.{png,jpg,jpeg}',
-  { eager: true, query: '?url', import: 'default' },
-))
-  .map(([path, src]) => ({
-    src,
-    name: path.split(/[\\/]/).pop() ?? path,
-  }))
-  .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+// Keeps three.js out of the main bundle so the homepage doesn't download it.
+const MachineScene = lazy(() => import('./MachineScene'));
 
 const terrainImages = Object.entries(import.meta.glob<string>(
   '../assets/terrain/*.{png,jpg,jpeg}',
@@ -26,29 +19,18 @@ const terrainImages = Object.entries(import.meta.glob<string>(
   .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
 
 const salientFeatures = [
-  'Automatic car-length detection',
-  'Under-chassis and wheel-wash facility',
-  'Washes vehicles up to 6.1 metres long',
-  'High water pressure with lower water usage',
-  'SS304 components in water-prone areas',
-  'Compact gantry with no exposed flexible pipes',
-  'Single arm delivers the full available water pressure',
-  '13 nozzles deliver up to 22 bar for the external wash',
-  'Reinforced frame to handle high-pressure dynamic loads',
-  'Improved structural stability',
-];
-
-const technicalFeatures = [
-  'Compact, simple design for lower maintenance',
-  'Sensitive components protected beneath the gantry cover',
-  'High-pressure pump for manual washing',
-  'No air compressor or pneumatic components',
-  'No detergent pump, helping reduce power consumption',
-  'Track stabilization designed for quieter operation and reduced wear',
-  'Rubber-coated metal wheels for traction and long service life',
-  'Lightweight structure designed for manual erection without a crane',
-  'Advanced foaming technology',
-  'More than one year of research and development',
+  'Under chassis and wheel wash facility.',
+  'Washes car up to 6.1 meters length.',
+  'High water pressure, lower water usage.',
+  'SS 304 grade stainless steel components in water prone areas.',
+  'Appealing gantry design with no exposed service lines.',
+  'Single arm delivers full available concentrated pressure.',
+  'Reduced component counts. Reduced electricity consumption.',
+  'More than a year of research and development results near-zero maintenance.',
+  'Light weight compact gantry designed for crane-free erection.',
+  'Advanced foaming technology.',
+  '4-inch-high resolution touchscreen human machine interface.',
+  'All hardware shall be SS 304 grade stainless steel.',
 ];
 
 const equipment = [
@@ -58,7 +40,8 @@ const equipment = [
   ['Programmable controller', 'Siemens PLC'],
   ['Drive motor', 'Crompton'],
   ['Bearings', 'NTN Japan'],
-  ['Water-prone hardware', 'SS304 stainless steel'],
+  ['Gearbox', 'Rotomotive'],
+  ['Variable frequency drive', 'Schneider'],
 ];
 
 type ProductImage = {
@@ -182,22 +165,12 @@ function ProductFaq() {
           <h2 className="t-h2" id="tiny-faq-title">Tank's tiny, at a glance.</h2>
         </div>
         <div className="faq-list">
-          <details className="faq-item">
-            <summary>How long does a wash take?</summary>
-            <p>A complete wash cycle takes around three minutes.</p>
-          </details>
-          <details className="faq-item">
-            <summary>What is the maximum vehicle size?</summary>
-            <p>Tank's tiny can wash vehicles up to 6.1 metres long, with a maximum wash height of 2,225 mm.</p>
-          </details>
-          <details className="faq-item">
-            <summary>Does installation require a crane?</summary>
-            <p>The compact, lightweight gantry is designed for manual on-site erection without a crane.</p>
-          </details>
-          <details className="faq-item">
-            <summary>What makes the wash contactless?</summary>
-            <p>A single arm rotates around the vehicle and delivers high-pressure water and foam through 13 nozzles.</p>
-          </details>
+          {faqs.map((faq) => (
+            <details className="faq-item" key={faq.question}>
+              <summary>{faq.question}</summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
         </div>
       </div>
     </section>
@@ -214,19 +187,21 @@ export function TinyProductPage() {
       <section className="product-page-hero">
         <div className="product-page-hero-copy">
           <p className="kicker">Meet the machine</p>
-          <h1 className="product-page-title">Small footprint.<br />A complete wash.</h1>
+          <h1 className="product-page-title">Small footprint.<br />A&nbsp;complete wash.</h1>
           <p className="product-page-lede">
             Contactless, automatic 360° washing with high-pressure water and foam—cleaning any car size in around three minutes.
           </p>
         </div>
         <div className="product-page-model" aria-label="Interactive 3D render of Tank's tiny">
-          <MachineScene
-            assemblyProgress={assemblyProgress}
-            storyProgress={storyProgress}
-            isVisible
-            interactive
-          />
-          
+          <Suspense fallback={<p className="model-loading">Loading 3D model…</p>}>
+            <MachineScene
+              assemblyProgress={assemblyProgress}
+              storyProgress={storyProgress}
+              isVisible
+              interactive
+            />
+          </Suspense>
+
         </div>
       </section>
 
@@ -247,17 +222,20 @@ export function TinyProductPage() {
 
       <section className="product-name-section">
         <div className="product-name-image">
-          <img src={tinyImages.find((image) => image.name === '11.png')?.src} alt="Compact Tank's tiny gantry render" loading="lazy" />
+          <img
+            src={tinyGantryImage}
+            alt="Compact Tank's tiny gantry render"
+            width={1311}
+            height={1348}
+            loading="lazy"
+          />
           <span className="image-caption">Advanced compact-size gantry</span>
         </div>
         <div className="product-name-copy">
           <p className="kicker">Why the name tiny?</p>
-          <h2>The world's smallest single-arm gantry.</h2>
+          <h2>The world's smallest single&#8209;arm gantry.</h2>
           <p>
             A reduced component count gives Tank's tiny its compact form and lowers the floor space needed for installation.
-          </p>
-          <p>
-            Its lighter structure is designed for manual erection, while a reinforced frame helps manage the dynamic loads of high-pressure washing.
           </p>
         </div>
       </section>
@@ -265,7 +243,7 @@ export function TinyProductPage() {
       <section className="product-content-section">
         <div className="product-section-heading">
           <p className="kicker">Salient features</p>
-          <h2>Thoughtfully compact.<br />Ready for the wash bay.</h2>
+          <h2>Intense pressure.<br />Stubborn dirt doesn’t stand a chance.</h2>
         </div>
         <ul className="product-feature-grid">
           {salientFeatures.map((feature, index) => (
@@ -274,16 +252,6 @@ export function TinyProductPage() {
               <span>{feature}</span>
             </li>
           ))}
-        </ul>
-      </section>
-
-      <section className="product-spec-section">
-        <div className="product-section-heading">
-          <p className="kicker">Technical features</p>
-          <h2>Built for dependable operation.</h2>
-        </div>
-        <ul className="technical-feature-list">
-          {technicalFeatures.map((feature) => <li key={feature}>{feature}</li>)}
         </ul>
       </section>
 
@@ -300,25 +268,6 @@ export function TinyProductPage() {
             </div>
           ))}
         </div>
-        <div className="control-chips" aria-label="Control and operation features">
-          <span>Cycle count mode</span>
-          <span>4-inch touch display</span>
-          <span>Individual cycle run</span>
-          <span>Voltage and trip indicators</span>
-          <span>Variable-frequency drive</span>
-          <span>Vibrationless operation</span>
-        </div>
-      </section>
-
-      <section className="product-gallery-section">
-        <div className="product-gallery-heading">
-          <div>
-            <p className="kicker">In detail</p>
-            <h2>Tank's tiny from every angle.</h2>
-          </div>
-         
-        </div>
-        <ImageCarousel images={tinyImages} label="Tank's tiny product render" className="product-image-carousel" />
       </section>
 
       <ProductFaq />
